@@ -33,7 +33,7 @@ const supabase = createClient('https://puisbpdboykphyeexnrh.supabase.co',
     //clear input field
     attendeeIdInput.value = '';
 
-    //useless
+    //useless, for me to check
     console.log('Check-in successful!');
   });
 })();
