@@ -45,7 +45,7 @@ const attendeeId = document.getElementById('attendeeId').value;
           `.select()
 
        
-        }
+        
 
         document.getElementById('attendeeId').value = '';
 
