@@ -8,20 +8,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const checkInForm = document.getElementById('checkInForm');
   const attendeeIdInput = document.getElementById('attendeeId');
 
-  // Function to automatically submit the form
+  
   function autoSubmitForm() {
     checkInForm.removeEventListener('submit', handleSubmit);
     checkInForm.submit();
     console.log('Form submitted automatically.');
   }
 
-  // Event listener for form submission
   function handleSubmit(event) {
     event.preventDefault();
     const attendeeId = attendeeIdInput.value;
-
-    // Perform any necessary validation or processing here
-
     // Delay the form submission by 5 seconds (5000 milliseconds)
     setTimeout(autoSubmitForm, 5000);
   }
@@ -42,10 +38,9 @@ const attendeeId = document.getElementById('attendeeId').value;
 
             
           ])
-          `.select()
+          .select()
 
        
-        
 
         document.getElementById('attendeeId').value = '';
 
