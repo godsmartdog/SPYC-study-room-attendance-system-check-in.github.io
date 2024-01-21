@@ -4,45 +4,33 @@ const supabaseUrl = 'https://puisbpdboykphyeexnrh.supabase.co'
 const supabaseKey = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB1aXNicGRib3lrcGh5ZWV4bnJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDU2NTUwMDEsImV4cCI6MjAyMTIzMTAwMX0.Sl_aehSlK5xgim5BoGfD4IAezVMuKEi77XmUW2_yRWw
 const supabase = createClient(supabaseUrl, supabaseKey)
 
-document.addEventListener('DOMContentLoaded', () => {
-  const checkInForm = document.getElementById('checkInForm');
-  const attendeeIdInput = document.getElementById('attendeeId');
 
-  
-  function autoSubmitForm() {
-    checkInForm.removeEventListener('submit', handleSubmit);
-    checkInForm.submit();
-    console.log('Form submitted automatically.');
-  }
-
-  function handleSubmit(event) {
+(async () => {
+  checkInForm.addEventListener('submit', async (event) => {
     event.preventDefault();
+
     const attendeeId = attendeeIdInput.value;
-    // Delay the form submission by 5 seconds (5000 milliseconds)
-    setTimeout(autoSubmitForm, 5000);
-  }
+    const attendanceTime = new Date().toISOString(); // Get current time in ISO 8601 format
 
-  checkInForm.addEventListener('submit', handleSubmit);
-});
-const attendeeId = document.getElementById('attendeeId').value;
-        const attendanceTime = new Date().toISOString();
+    // Insert a new record into the 'check_ins' table
+    const { data, error } = await supabase
+      .from('check_ins')
+      .insert([
+        {
+          attendee_id: attendeeId,
+          attendance_time: attendanceTime
+        }
+      ]);
 
-        const { data, error } = await supabase
-          .from('check_ins')
-          .insert([
-            {
-              attendee_id: attendeeId,
-              attendance_time: attendanceTime
-            }
+    if (error) {
+      console.error(error);
+      return;
+    }
 
-            
-          ])
-          .select()
+    // Clear input field after successful check-in
+    attendeeIdInput.value = '';
 
-       
-
-        document.getElementById('attendeeId').value = '';
-
-        console.log('Check-in successful!');
-      });
-    });
+    // Display a success message or perform any other necessary actions
+    console.log('Check-in successful!');
+  });
+})();
