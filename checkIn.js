@@ -15,7 +15,7 @@ const supabase = createClient('https://puisbpdboykphyeexnrh.supabase.co',
     const attendeeId = attendeeIdInput.value;
     const attendanceTime = new Date().toISOString(); // Get current time in ISO 8601 format
 
-    // Insert a new record into the 'check_ins' table
+    // Insert record
     const { data, error } = await supabase
       .from('check_ins')
       .insert([
@@ -30,10 +30,10 @@ const supabase = createClient('https://puisbpdboykphyeexnrh.supabase.co',
       return;
     }
 
-    // Clear input field after successful check-in
+    //clear input field
     attendeeIdInput.value = '';
 
-    // Display a success message or perform any other necessary actions
+    //useless
     console.log('Check-in successful!');
   });
 })();
