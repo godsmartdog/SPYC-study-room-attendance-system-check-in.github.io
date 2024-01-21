@@ -28,7 +28,7 @@ const attendeeId = document.getElementById('attendeeId').value;
         const attendanceTime = new Date().toISOString();
 
         const { data, error } = await supabase
-          .from('check-ins')
+          .from('check_ins')
           .insert([
             {
               attendee_id: attendeeId,
