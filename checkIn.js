@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(autoSubmitForm, 5000);
   }
 
-  // Add event listener to the form
   checkInForm.addEventListener('submit', handleSubmit);
 });
 const attendeeId = document.getElementById('attendeeId').value;
