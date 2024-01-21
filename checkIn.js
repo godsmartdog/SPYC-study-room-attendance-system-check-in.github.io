@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   checkInForm.addEventListener('submit', handleSubmit);
 });
 const attendeeId = document.getElementById('attendeeId').value;
-        const attendanceTime = new Date().toISOString();
+        const attendanceTime = new Date().getTime();
 
         const { data, error } = await supabase
           .from('check_ins')
