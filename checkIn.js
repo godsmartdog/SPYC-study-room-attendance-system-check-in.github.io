@@ -39,11 +39,12 @@ const attendeeId = document.getElementById('attendeeId').value;
               attendee_id: attendeeId,
               attendance_time: attendanceTime
             }
-          ]);
 
-        if (error) {
-          console.error(error);
-          return;
+            
+          ])
+          `.select()
+
+       
         }
 
         document.getElementById('attendeeId').value = '';
