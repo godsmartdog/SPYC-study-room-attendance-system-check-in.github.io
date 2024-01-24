@@ -14,7 +14,7 @@ console.log('Supabase Instance: ', supabase)
 (async () => {
   checkInForm.addEventListener('submit', async (event) => {
     event.preventDefault();
-
+    const attendeeIdInput = document.getElementById('attendeeId');
     const attendeeId = attendeeIdInput.value;
     const attendanceTime = new Date().toISOString(); // Get current time in ISO 8601 format
 
