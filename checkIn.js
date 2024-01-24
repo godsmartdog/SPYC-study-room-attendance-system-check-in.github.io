@@ -12,7 +12,7 @@ const supabase = createClient('https://puisbpdboykphyeexnrh.supabase.co',
 
 
 (async () => {
-  console.log('Supabase Instance: ', supabase)
+  //console.log('Supabase Instance: ', supabase)
   checkInForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     const attendeeIdInput = document.getElementById('attendeeId');
@@ -29,10 +29,10 @@ const supabase = createClient('https://puisbpdboykphyeexnrh.supabase.co',
         }
       ]);
 
-    if (error) {
-      console.error(error);
-      return;
-    }
+    //if (error) {
+    //  console.error(error);
+    //  return;
+    //}
 
     //clear input field
     attendeeIdInput.value = '';
