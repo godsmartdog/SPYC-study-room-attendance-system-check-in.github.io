@@ -7,11 +7,12 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 const supabase = createClient('https://puisbpdboykphyeexnrh.supabase.co', 
 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB1aXNicGRib3lrcGh5ZWV4bnJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDU2NTUwMDEsImV4cCI6MjAyMTIzMTAwMX0.Sl_aehSlK5xgim5BoGfD4IAezVMuKEi77XmUW2_yRWw')
 
-console.log('Supabase Instance: ', supabase)
+
 
 
 
 (async () => {
+  console.log('Supabase Instance: ', supabase)
   checkInForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     const attendeeIdInput = document.getElementById('attendeeId');
