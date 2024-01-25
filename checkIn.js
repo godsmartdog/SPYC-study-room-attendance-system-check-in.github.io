@@ -40,6 +40,9 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 
       if (existingRecords.length > 0) {
+
+        const checkInTime = new Date(existingRecords[0].check_in_time);
+
         // If record exists, delete it
         const { fetch_error: deleteError } = await supabase
           .from('roomStatus')
@@ -63,6 +66,42 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
             ])
             console.log('Record inserted into roomStatus');;}
 
+
+            const currentTime = new Date();
+            const totalTime = currentTime - checkInTime;
+
+            // Retrieve previous total time from ranking table
+            const { data: rankingData, error: rankingError } = await supabase
+              .from('ranking')
+              .select('total_time')
+              .eq('attendee_id', attendeeId);
+
+  
+            let previousTotalTime = 0;
+
+            if (rankingData.length > 0) {
+              previousTotalTime = rankingData[0].total_time || 0;
+            
+
+            // Update total time in ranking table
+            const { error: updateError } = await supabase
+              .from('ranking')
+              .update({ total_time: previousTotalTime + totalTime })
+              .eq('attendee_id', attendeeId);
+
+            
+
+            
+            }else {
+              // If record doesn't exist, insert it as the first attendance
+              const { error: insertError } = await supabase
+              .from('roomStatus')
+              .insert([
+                {
+                    attendee_id: attendeeId,
+                    check_in_time: new Date().toISOString()
+                }
+                      ]);}
 
 
 
