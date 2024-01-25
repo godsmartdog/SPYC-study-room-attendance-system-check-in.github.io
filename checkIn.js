@@ -3,10 +3,6 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 //do not write anything outside async
 
 (async () => {
-  //console.log('Supabase Instance: ', supabase)
-
-
-  
 
   const supabase = createClient('https://puisbpdboykphyeexnrh.supabase.co', 
 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB1aXNicGRib3lrcGh5ZWV4bnJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDU2NTUwMDEsImV4cCI6MjAyMTIzMTAwMX0.Sl_aehSlK5xgim5BoGfD4IAezVMuKEi77XmUW2_yRWw')
@@ -14,6 +10,12 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
   email: 'godsmartdog@email.com',
   password: 'pyc18076',
 })  
+  const checkInForm = document.getElementById('checkInForm');
+  const attendeeIdInput = document.getElementById('attendeeId');
+
+  attendeeIdInput.addEventListener('input', function() {
+  checkInForm.submit();
+});
   checkInForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     const attendeeIdInput = document.getElementById('attendeeId');
