@@ -31,6 +31,43 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
           attendance_time: attendanceTime
         }
       ]);
+      //check is there the record exist
+      const { data: existingRecords, fetch_error } = await supabase
+      .from('roomStatus')
+      .select()
+      .eq('attendee_id', attendeeId);
+
+
+
+      if (existingRecords.length > 0) {
+        // If record exists, delete it
+        const { fetch_error: deleteError } = await supabase
+          .from('roomStatus')
+          .delete()
+          .eq('attendee_id', attendeeId);
+    
+          console.log('Record deleted from roomStatus');
+        }
+    
+        
+      else {
+        // If record doesn't exist, insert it
+          const { error: insertError } = await supabase
+            .from('roomStatus')
+            .insert([
+            {
+              attendee_id: attendeeId,
+              status: 'checked-in'
+            }
+
+            ])
+            console.log('Record inserted into roomStatus');;}
+
+
+
+
+
+
 
     //clear input field
     attendeeIdInput.value = '';
