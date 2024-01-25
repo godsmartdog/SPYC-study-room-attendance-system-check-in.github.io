@@ -111,4 +111,4 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
     //useless, for me to check
     console.log('Check-in successful!');
-  })();
+  });})();
