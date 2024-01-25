@@ -6,10 +6,10 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
   const supabase = createClient('https://puisbpdboykphyeexnrh.supabase.co', 
 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB1aXNicGRib3lrcGh5ZWV4bnJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDU2NTUwMDEsImV4cCI6MjAyMTIzMTAwMX0.Sl_aehSlK5xgim5BoGfD4IAezVMuKEi77XmUW2_yRWw')
-  const { data, error } = await supabase.auth.signInWithPassword({
-  email: 'godsmartdog@email.com',
-  password: 'pyc18076',
-})  
+  //const { data, error } = await supabase.auth.signInWithPassword({
+  //email: 'godsmartdog@email.com',
+  //password: 'pyc18076',
+//})  
   const checkInForm = document.getElementById('checkInForm');
   const attendeeIdInput = document.getElementById('attendeeId');
 
