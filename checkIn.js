@@ -17,8 +17,8 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
   attendeeIdInput.addEventListener('input', function() {
   checkInForm.submit();
 });
-  //checkInForm.addEventListener('submit', async (event) => {
-    //event.preventDefault();
+  checkInForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
     
     // Insert record
     const { data, error } = await supabase
