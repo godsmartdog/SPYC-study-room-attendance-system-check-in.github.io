@@ -1,42 +1,46 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Check-In</title>
- 
-  
-  
-  <script type="module" src="checkIn.js"></script>
+
+
+
+
   <style>
-  
-  html, body
-  { height:100% ;
-    margin :0;
-    display : flex;
-    justify-content: center;
-    align-items: center;
-    background-color: green;}
-  .container 
-  { color : white;
-   text-align : center;}
-   
-  input{ width:200px;
-         height:30px;
-         margin-top: 10px}
-         
-  
-  
-  
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: green;
+    }
+
+    .container {
+      color: white;
+      text-align: center;
+    }
+
+    input {
+      width: 200px;
+      height: 30px;
+      margin-top: 10px
+    }
   </style>
 </head>
+
 <body>
   <h1>Check-In Page</h1>
-  
+
   <form id="checkInForm">
     <label for="attendeeId">Attendee ID:</label>
     <input type="text" id="attendeeId" name="attendeeId" required>
     <br>
     <button type="submit">Check-In</button>
   </form>
-
+  <script type="module" src="checkIn.js"></script>
 </body>
+
 </html>
