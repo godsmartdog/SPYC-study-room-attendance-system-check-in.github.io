@@ -102,16 +102,16 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
                       ]);}
 
 
-
+      console.log('Check-in successful!');
 
     };
     checkInForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         await handleFormSubmit();
+        
     //clear input field
     attendeeIdInput.value = '';
 
-    //useless, for me to check
-    console.log('Check-in successful!');
+   
   })
 })();
