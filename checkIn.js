@@ -12,16 +12,14 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 //})  
   const checkInForm = document.getElementById('checkInForm');
   const attendeeIdInput = document.getElementById('attendeeId');
+  const attendanceTime = new Date().toISOString(); // Get current time in ISO 8601 format
 
   attendeeIdInput.addEventListener('input', function() {
   checkInForm.submit();
 });
-  checkInForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const attendeeIdInput = document.getElementById('attendeeId');
-    const attendeeId = attendeeIdInput.value;
-    const attendanceTime = new Date().toISOString(); // Get current time in ISO 8601 format
-
+  //checkInForm.addEventListener('submit', async (event) => {
+    //event.preventDefault();
+    
     // Insert record
     const { data, error } = await supabase
       .from('check_ins')
@@ -113,5 +111,4 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
     //useless, for me to check
     console.log('Check-in successful!');
-  });
-})();
+  })();
