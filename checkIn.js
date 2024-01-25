@@ -18,6 +18,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
   checkInForm.submit();
 });
   const handleFormSubmit = async (event) => {
+    event.preventDefault();
     
     
     // Insert record
@@ -58,7 +59,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
             .insert([
             {
               attendee_id: attendeeId,
-              status: 'checked-in'
+              check_in_time: 'checked-in'
             }
 
             ])
