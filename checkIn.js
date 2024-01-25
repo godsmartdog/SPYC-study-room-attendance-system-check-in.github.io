@@ -16,13 +16,12 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
   attendeeIdInput.addEventListener('keydown', function (e) {
     if (e.key == "Enter") {
-      checkInForm.submit();
+      console.log("HIHIHI")
+      // checkInForm.submit();
     }
 
   });
   const handleFormSubmit = async (event) => {
-    event.preventDefault();
-
 
     // Insert record
     const { data, error } = await supabase
