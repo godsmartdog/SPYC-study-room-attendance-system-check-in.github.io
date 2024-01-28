@@ -27,12 +27,12 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
           attendeeId: attendeeId.value,
           attendance_time: attendanceTime
         }
-      ]);
+      ])
     //check is there the record exist in room status for checking he is entering or leaving
     const { data: existingRecords, fetch_error } = await supabase
       .from('roomStatus')
       .select()
-      .eq('attendee_id', attendeeId.value);
+      .eq('attendee_id', attendeeId.value)
 
     let checkInTime =null //for calculate the total time
 
@@ -44,7 +44,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
       const { fetch_error: deleteError } = await supabase
         .from('roomStatus')
         .delete()
-        .eq('attendee_id', attendeeId.value);
+        .eq('attendee_id', attendeeId.value)
 
       console.log('Record deleted from roomStatus');
     }
@@ -92,7 +92,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
     const { data: rankingData, error: rankingError } = await supabase
       .from('ranking')
       .select('total_time')
-      .eq('attendee_Id', attendeeId.value);
+      .eq('attendee_Id', attendeeId.value)
 
     let previousTotalTime = 0;
 
@@ -103,7 +103,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
       const { error: updateError } = await supabase
         .from('ranking')
         .update({ total_time: previousTotalTime + totalTime })
-        .eq('attendee_Id', attendeeId.value);
+        .eq('attendee_Id', attendeeId.value)
 
     } 
 
@@ -129,23 +129,22 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
   }, 1000);
 }
 //each half year refresh the total time, I am not sure will it works
-function checkRewardEligibility() {
-  const currentMonth = new Date().getMonth();
-  const currentYear = new Date().getFullYear();
 
-  // Calculate the months since the last refresh
-  const monthsSinceRefresh =
-    currentYear * 12 + currentMonth - lastRefreshDate.getFullYear() * 12 - lastRefreshDate.getMonth();
-
-  if (monthsSinceRefresh >= 6) {
-    // Refresh the total check-in time and update the last refresh date
-    const {data , error } = await supabase
-        .from('ranking')
-        .update({ total_time:0});
-    lastRefreshDate = new Date();
-    } 
+function clearRanking(){
+  const {error} =await supabase
+  .from(ranking)
+  .delete()
     
-  }
+}
+  
+  function checkRewardEligibility() {
+    const currentMonth = new Date().getMonth();
+    const currentDate = new Date().getDate();
+  // Check if it's the 1st of February or the 1st of September
+    if ((currentMonth === 1 && currentDate === 1) || (currentMonth === 8 && currentDate === 1)) {
+      // Clear the ranking records
+      clearRanking();
+  }}
   checkInForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     await handleFormSubmit();
@@ -160,5 +159,5 @@ function checkRewardEligibility() {
 
 
   })
-  setInterval(checkRewardEligibility, 1000 * 60 * 60 * 24 * 30); 
+  setInterval(checkRewardEligibility, 1000 * 60 * 60 * 24 ); 
 })();
