@@ -9,7 +9,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
   const checkInForm = document.getElementById('checkInForm');
   const attendeeId = document.getElementById('attendeeId') //the input (add .value if you need to use the value inside the input)
   const attendanceTime = new Date().toISOString(); // Get current time in ISO 8601 format
-
+  let input_valid == true;
   attendeeId.addEventListener('keydown', function (e) {
     if (e.key == "Enter") {
       console.log("HIHIHI")
@@ -133,7 +133,12 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
   checkInForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     await handleFormSubmit();
-    showSuccessMessage()
+    if input_valid == True:
+      showStatusMessage("success", true);
+    else:
+      showStatusMessage("invalid", false);
+    
+      
     //clear input field
     attendeeId.value = '';
 
