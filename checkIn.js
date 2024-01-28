@@ -105,15 +105,13 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
         .update({ total_time: previousTotalTime + totalTime })
         .eq('attendee_Id', attendeeId.value);
 
-
-
-
     } 
 
 
     console.log('Check-in successful!');
 
   };
+  
   function showStatusMessage(message, valid) {
   const statusMessage = document.getElementById('statusMessage');
   statusMessage.style.display = 'block';
@@ -130,6 +128,24 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
     statusMessage.style.display = 'none';
   }, 1000);
 }
+//each half year refresh the total time, I am not sure will it works
+function checkRewardEligibility() {
+  const currentMonth = new Date().getMonth();
+  const currentYear = new Date().getFullYear();
+
+  // Calculate the months since the last refresh
+  const monthsSinceRefresh =
+    currentYear * 12 + currentMonth - lastRefreshDate.getFullYear() * 12 - lastRefreshDate.getMonth();
+
+  if (monthsSinceRefresh >= 6) {
+    // Refresh the total check-in time and update the last refresh date
+    const {data , error } = await supabase
+        .from('ranking')
+        .update({ total_time:0});
+    lastRefreshDate = new Date();
+    } 
+    
+  }
   checkInForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     await handleFormSubmit();
@@ -144,4 +160,5 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 
   })
+  setInterval(checkRewardEligibility, 1000 * 60 * 60 * 24 * 30); 
 })();
