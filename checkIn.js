@@ -40,7 +40,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 
 
-    if (existingRecords.length > 0) {
+    if (existingRecords && existingRecords.length > 0) {
 
       const checkInTime = new Date(existingRecords[0].check_in_time);
 
@@ -70,7 +70,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 
     const currentTime = new Date();
-    const totalTime = currentTime - checkInTime;
+    const totalTime = currentTime - new Date(existingRecords[0].check_in_time);
 
     // Retrieve previous total time from ranking table
     const { data: rankingData, error: rankingError } = await supabase
@@ -81,7 +81,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
     let previousTotalTime = 0;
 
-    if (rankingData.length > 0) {
+    if (rankingData && rankingData.length > 0) {
       previousTotalTime = rankingData[0].total_time || 0;
 
 
