@@ -114,14 +114,20 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
     console.log('Check-in successful!');
 
   };
-  function showSuccessMessage() {
-  const successMessage = document.getElementById('successMessage');
-  successMessage.style.display = 'block';
-  successMessage.textContent = 'Success';
+  function showStatusMessage(message, valid) {
+  const statusMessage = document.getElementById('statusMessage');
+  statusMessage.style.display = 'block';
+  statusMessage.textContent = message;
 
-  // After a second, hide the success message
+  if (valid) {
+    statusMessage.style.color = 'green';
+  } else {
+    statusMessage.style.color = 'red';
+  }
+
+  // After a second, hide the status message
   setTimeout(() => {
-    successMessage.style.display = 'none';
+    statusMessage.style.display = 'none';
   }, 1000);
 }
   checkInForm.addEventListener('submit', async (event) => {
