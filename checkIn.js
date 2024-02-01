@@ -147,9 +147,29 @@ function clearRanking(){
       // Clear the ranking records
       clearRanking();
   }}
+
+ // function timeLimitCheckIn(){
+  
+  //const currentDate = new Date();
+    //const startTime = new Date();
+    //startTime.setHours(8, 15, 0); // Set the start time to 08:15:00
+    //const endTime = new Date();
+    //endTime.setHours(18, 30, 0); // Set the end time to 18:30:00
+    
+  //}
+  
   checkInForm.addEventListener('submit', async (event) => {
     event.preventDefault();
-    await handleFormSubmit();
+    const currentDate = new Date();
+    const startTime = new Date();
+    startTime.setHours(8, 15, 0); // Set the start time to 08:15:00
+    const endTime = new Date();
+    endTime.setHours(18, 30, 0); // Set the end time to 18:30:00
+     if (currentDate >= startTime && currentDate <= endTime) {
+      await handleFormSubmit();}
+    else{
+      input_valid = false;
+    }
     if ( input_valid == true) {
       showStatusMessage("success", true);}
     else{
