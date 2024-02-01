@@ -7,7 +7,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
   const supabase = createClient('https://puisbpdboykphyeexnrh.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB1aXNicGRib3lrcGh5ZWV4bnJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDU2NTUwMDEsImV4cCI6MjAyMTIzMTAwMX0.Sl_aehSlK5xgim5BoGfD4IAezVMuKEi77XmUW2_yRWw') 
   const checkInForm = document.getElementById('checkInForm');
-  const attendeeId = document.getElementById('attendeeId') //the input (add .value if you need to use the value inside the input)
+  let attendeeId = document.getElementById('attendeeId') //the input (add .value if you need to use the value inside the input)
   const attendanceTime = new Date().toISOString(); // Get current time in ISO 8601 format
   let input_valid = true; //for status message
   attendeeId.addEventListener('keydown', function (e) {
@@ -148,15 +148,30 @@ function clearRanking(){
       clearRanking();
   }}
 
- // function timeLimitCheckIn(){
+  function timeLimitCheckIn(){
   
-  //const currentDate = new Date();
-    //const startTime = new Date();
-    //startTime.setHours(8, 15, 0); // Set the start time to 08:15:00
-    //const endTime = new Date();
-    //endTime.setHours(18, 30, 0); // Set the end time to 18:30:00
+    const currentDate = new Date();
+    const startTime = new Date();
+    startTime.setHours(8, 15, 0); // Set the start time to 08:15:00
+    const endTime = new Date();
+    endTime.setHours(18, 30, 0); // Set the end time to 18:30:00
+    if (currentDate <= startTime || currentDate >= endTime) {
+      (async () => {
+        
+        let { data: roomStatus, error } = await supabase
+        .from('roomStatus')
+        .select('attendee_id')
+        
+        roomStatus.forEach((attendee) => {
+          attendeeId = attendee.attendee_id
+          (async () => {
+            await handleFormSubmit();});
+      })
+    });
+    }
+
     
-  //}
+  }
   
   checkInForm.addEventListener('submit', async (event) => {
     event.preventDefault();
