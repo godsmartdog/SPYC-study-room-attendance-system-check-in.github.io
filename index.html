@@ -3,10 +3,6 @@
 
 <head>
   <title>Check-In</title>
-
-
-
-
   <style>
     html,
     body {
@@ -15,32 +11,86 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: green;
+      background-color: lime;
+      font-family: Arial, sans-serif;
     }
 
     .container {
-      color: white;
       text-align: center;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: lime;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
     }
 
     input {
+      width: 100%;
+      height: 24px;
+      padding: 5px;
+      border-radius: 3px;
+      border: 1px solid #cccccc;
+      margin-bottom: 10px;
+    }
+
+    .logo {
+      font-size: 200px;
+      font-weight: bold;
+      margin-bottom: 40px;
+    }
+
+    .block {
       width: 200px;
-      height: 30px;
-      margin-top: 10px
+      height: 20px;
+      background-color: #4CAF50;
+      margin: 0 auto;
+      margin-top: 40px;
+    }
+
+    .clock {
+      font-size: 48px;
+      margin-top: 40px;
     }
   </style>
 </head>
 
 <body>
-  <h1>Check-In Page</h1>
+  <div class="input-container" style="position: absolute; top: 50px; width: 10%;">
+    <form id="checkInForm">
+      <label for="attendeeId">Attendee ID:</label>
+      <input type="text" id="attendeeId" name="attendeeId" required>
+    </form>
+  </div>
 
-  <form id="checkInForm">
-    <label for="attendeeId">Attendee ID:</label>
-    <input type="text" id="attendeeId" name="attendeeId" required>
-    <br>
-    <button type="submit">Check-In</button>
-  </form>
-  <p id="statusMessage" style="display: none;"></p>
+  <div class="container">
+    <h1>Check-In Page</h1>
+
+    <div class="logo">
+      SPYC
+    </div>
+
+    <div class="block"></div>
+
+    <div class="clock">
+      <script>
+        function displayClock() {
+          var now = new Date();
+          var time = now.toLocaleTimeString();
+          document.getElementsByClassName("clock")[0].innerHTML = time;
+        }
+        setInterval(displayClock, 1000);
+      </script>
+    </div>
+  </div>
+
   <script type="module" src="checkIn.js"></script>
 </body>
 
