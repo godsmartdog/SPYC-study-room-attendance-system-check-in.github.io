@@ -8,7 +8,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB1aXNicGRib3lrcGh5ZWV4bnJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDU2NTUwMDEsImV4cCI6MjAyMTIzMTAwMX0.Sl_aehSlK5xgim5BoGfD4IAezVMuKEi77XmUW2_yRWw') 
   const checkInForm = document.getElementById('checkInForm');
   let attendeeId = document.getElementById('attendeeId') //the input (add .value if you need to use the value inside the input)
-  const attendanceTime = new Date().toISOString(); // Get current time in ISO 8601 format
+  let attendanceTime = new Date().toISOString(); // Get current time in ISO 8601 format
   let input_valid = true; //for status message
   attendeeId.addEventListener('keydown', function (e) {
     if (e.key == "Enter") {
@@ -126,7 +126,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
   // After a second, hide the status message
   setTimeout(() => {
     statusMessage.style.display = 'none';
-  }, 1000);
+  }, 3000);
 }
 //each half year refresh the total time, I am not sure will it works
 
@@ -149,29 +149,42 @@ function clearRanking(){
   }}
 
   function timeLimitCheckIn(){
-  
-    const currentDate = new Date();
-    const startTime = new Date();
-    startTime.setHours(8, 15, 0); // Set the start time to 08:15:00
-    const endTime = new Date();
-    endTime.setHours(18, 30, 0); // Set the end time to 18:30:00
-    if (currentDate <= startTime || currentDate >= endTime) {
       (async () => {
-        
-        let { data: roomStatus, error } = await supabase
-        .from('roomStatus')
-        .select('attendee_id')
-        
-        roomStatus.forEach((attendee) => {
-          attendeeId = attendee.attendee_id
-          (async () => {
-            await handleFormSubmit();});
-      })
-    });
+        console.log("hihihi")
+        const currentDate = new Date();
+        const startTime = new Date();
+        startTime.setHours(8, 15, 0); // Set the start time to 08:15:00
+        const endTime = new Date();
+        endTime.setHours(16, 30, 0); // Set the end time to 18:30:00
+  
+        if (currentDate <= startTime || currentDate >= endTime) {
+      
+      
+          console.log("hi5")
+          let { data: roomStatus, error } = await supabase
+          .from('roomStatus')
+          .select('attendee_id')
+          console.log("hi2")
+          roomStatus.forEach(async (attendee) => {
+            const tmp_time = new Date();
+            tmp_time.setHours(18, 30, 0); // Set the start time to 08:15:00
+
+            const timestamp = tmp_time.getTime();
+            attendanceTime = new Date(timestamp).toISOString();
+           
+            
+            attendeeId = attendee.attendee_id;
+  
+            console.log("hi3");
+            //await handleFormSubmit();
+            console.log("hi4");
+          });
+        }
+      })();
     }
 
     
-  }
+
   
   checkInForm.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -179,7 +192,7 @@ function clearRanking(){
     const startTime = new Date();
     startTime.setHours(8, 15, 0); // Set the start time to 08:15:00
     const endTime = new Date();
-    endTime.setHours(18, 30, 0); // Set the end time to 18:30:00
+    endTime.setHours(16, 30, 0); // Set the end time to 18:30:00
      if (currentDate >= startTime && currentDate <= endTime) {
       await handleFormSubmit();}
     else{
@@ -197,4 +210,6 @@ function clearRanking(){
 
   })
   setInterval(checkRewardEligibility, 1000 * 60 * 60 * 24 ); 
+  setInterval(timeLimitCheckIn, 100000); 
 })();
+
