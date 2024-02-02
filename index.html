@@ -11,7 +11,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: lime;
+      background-color: #1E5949;
       font-family: Arial, sans-serif;
     }
 
@@ -24,7 +24,7 @@
     }
 
     h1 {
-      color: lime;
+      color: #1E5949;
     }
 
     label {
@@ -47,13 +47,18 @@
       margin-bottom: 40px;
     }
 
-    .block {
-      width: 200px;
-      height: 20px;
-      background-color: #4CAF50;
-      margin: 0 auto;
-      margin-top: 40px;
+    .status-message {
+      display: none;
+      text-align: center;
+      margin-top: 10px;
     }
+
+    .status-message.valid {
+      color: green;
+    }
+
+    .status-message.invalid {
+      color: red;}
 
     .clock {
       font-size: 48px;
@@ -77,7 +82,7 @@
       SPYC
     </div>
 
-    <div class="block"></div>
+    <div class="status-message" id="statusMessage"></div>
 
     <div class="clock">
       <script>
@@ -95,3 +100,4 @@
 </body>
 
 </html>
+
