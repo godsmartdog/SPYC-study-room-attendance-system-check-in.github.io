@@ -110,6 +110,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 
 
     console.log('Check-in successful!');
+    attendee_ID.value = ''
 
   };
   
@@ -194,9 +195,11 @@ function clearRanking(){
     const startTime = new Date();
     startTime.setHours(8, 15, 0); // Set the start time to 08:15:00
     const endTime = new Date();
-    endTime.setHours(18, 30, 0); // Set the end time to 18:30:00
+    endTime.setHours(16, 30, 0); // Set the end time to 18:30:00
      if (currentDate >= startTime && currentDate <= endTime) {
-      await handleFormSubmit();}
+      let attendeeId =attendee_ID.value
+      await handleFormSubmit();
+      attendeeId.value = '';}
     else{
       input_valid = false;
     }
@@ -207,7 +210,7 @@ function clearRanking(){
     
       
     //clear input field
-    attendeeId.value = '';
+    attendee_ID.value = '';
 
 
   })
