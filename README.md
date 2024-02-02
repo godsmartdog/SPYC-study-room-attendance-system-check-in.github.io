@@ -1,4 +1,4 @@
-the node_modules is totally useless
+the node_modules is totally useless. /n
 I hv three table in supabase,
 check_ins: Attend_Id (text format), attendence_time(timestampz)
 ranking: attendee_Id(text), total_time(float4)
