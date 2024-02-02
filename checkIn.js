@@ -18,9 +18,10 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
     }
 
   });
-  const handleFormSubmit = async (event) => {
+  //the main function
+  const FormSubmit = async (event) => {
 
-    // Insert record in check_ins, for the history
+    // upsert record in check_ins, for the history
     const { data, error } = await supabase
       .from('check_ins')
       .upsert([
@@ -29,17 +30,18 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
           attendance_time: attendanceTime
         }
       ])
-      console.log('Record insert in check_ins');
+      console.log('Record insert in check_ins');//just for check
+    
     //check is there the record exist in room status for checking he is entering or leaving
     const { data: existingRecords, fetch_error } = await supabase
       .from('roomStatus')
       .select()
-      .eq('attendee_id', attendeeId.value)
+      .eq('attendee_id', attendeeId.value)//the conditional
 
     let checkInTime =null //for calculate the total time
 
     if (existingRecords && existingRecords.length > 0) {
-
+      //get the time
       checkInTime = new Date(existingRecords[0].check_in_time);
 
       // If record exists, delete it, so it won't show in roomStatus
@@ -48,7 +50,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
         .delete()
         .eq('attendee_id', attendeeId.value)
 
-      console.log('Record deleted from roomStatus');
+      console.log('Record deleted from roomStatus');//just for check
     }
 
 
@@ -64,7 +66,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
           }
 
         ])
-      console.log('Record inserted into roomStatus');;
+      console.log('Record inserted into roomStatus');;//just for check
     }
 
     // Insert record into ranking table if it doesn't exist, for first time login
@@ -79,7 +81,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
     .insert([
       {
         attendee_Id: attendeeId.value,
-        total_time: 0, // Set the current timestamp as total_time
+        total_time: 0, // Set 0 as total_time for ppl first login
       },
     ])};
 
@@ -97,7 +99,6 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
       .eq('attendee_Id', attendeeId.value)
 
     let previousTotalTime = 0;
-
     if (rankingData && rankingData.length > 0) {
       previousTotalTime = rankingData[0].total_time || 0;
 
@@ -106,33 +107,27 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
         .from('ranking')
         .update({ total_time: previousTotalTime + totalTime })
         .eq('attendee_Id', attendeeId.value)
-
     } 
-
-
-    console.log('Check-in successful!');
-    
-
+    console.log('Check-in successful!');//just for check
   };
-  
+  //to show success or invalid in web
   function showStatusMessage(message, valid) {
   const statusMessage = document.getElementById('statusMessage');
   statusMessage.style.display = 'block';
   statusMessage.textContent = message;
 
-  if (valid) {
+  if (input_valid) {
     statusMessage.style.color = 'green';
   } else {
     statusMessage.style.color = 'red';
   }
 
-  // After a second, hide the status message
+  // After 3 seconds, hide the status message
   setTimeout(() => {
     statusMessage.style.display = 'none';
   }, 3000);
 }
-//each half year refresh the total time, I am not sure will it works
-
+//each half year refresh the total time
 function clearRanking(){
   (async () => {
     const {error} =await supabase
@@ -150,10 +145,10 @@ function clearRanking(){
       // Clear the ranking records
       clearRanking();
   }}
-
+//if it is before 08:15 or after 18:30 then delete all record in roomStatus and calucate the total time by calling FormSubmit()
   function timeLimitCheckIn(){
       (async () => {
-        console.log("hihihi")
+        console.log("hihihi")//for check
         const currentDate = new Date();
         const startTime = new Date();
         startTime.setHours(8, 15, 0); // Set the start time to 08:15:00
@@ -161,6 +156,7 @@ function clearRanking(){
         endTime.setHours(18, 30, 0); // Set the end time to 18:30:00
         
         if (currentDate <= startTime || currentDate >= endTime) {
+          //get ppl in room
           let { data: roomStatus, error } = await supabase
           .from('roomStatus')
           .select('attendee_id')
@@ -170,17 +166,14 @@ function clearRanking(){
           let { data: roomStatus, error } = await supabase
           .from('roomStatus')
           .select('attendee_id')
-        
-         
           
           roomStatus.forEach(async (attendee) => {
             const tmp_time = new Date();
             attendanceTime = new Date(timestamp).toISOString();
-            attendeeId.value = attendee.attendee_id;
+            attendeeId.value = attendee.attendee_id;//input the data in to input box
             document.getElementById("attendeeId").click();
-            console.log("hi3");
-            await handleFormSubmit();
-            console.log("hi4");
+            await FormSubmit();
+            
         }
         )
         } }
@@ -190,9 +183,10 @@ function clearRanking(){
 
     
 
-  
+  //when the data submitted
   checkInForm.addEventListener('submit', async (event) => {
     event.preventDefault();
+    //check is the time pass 18:30 already
     const currentDate = new Date();
     const startTime = new Date();
     startTime.setHours(8, 15, 0); // Set the start time to 08:15:00
@@ -200,11 +194,12 @@ function clearRanking(){
     endTime.setHours(18, 30, 0); // Set the end time to 18:30:00
      if (currentDate >= startTime && currentDate <= endTime) {
       
-      await handleFormSubmit();
+      await FormSubmit();
       }
     else{
       input_valid = false;
     }
+    
     if ( input_valid == true) {
       showStatusMessage("success", true);}
     else{
@@ -216,6 +211,6 @@ function clearRanking(){
 
 
   })
-  setInterval(checkRewardEligibility, 1000 * 60 * 60 * 24 ); 
-  setInterval(timeLimitCheckIn, 1000*60); 
+  setInterval(checkRewardEligibility, 1000 * 60 * 60 * 24 ); //run per day
+  setInterval(timeLimitCheckIn, 1000*60*5); //run per 5 mins
 })();
