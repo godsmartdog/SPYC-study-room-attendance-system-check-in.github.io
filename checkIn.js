@@ -7,10 +7,11 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
   const supabase = createClient('https://puisbpdboykphyeexnrh.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB1aXNicGRib3lrcGh5ZWV4bnJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDU2NTUwMDEsImV4cCI6MjAyMTIzMTAwMX0.Sl_aehSlK5xgim5BoGfD4IAezVMuKEi77XmUW2_yRWw') 
   const checkInForm = document.getElementById('checkInForm');
-  let attendeeId = document.getElementById('attendeeId') //the input (add .value if you need to use the value inside the input)
+  let attendee_ID = document.getElementById('attendeeId') //the input (add .value if you need to use the value inside the input)
   let attendanceTime = new Date().toISOString(); // Get current time in ISO 8601 format
   let input_valid = true; //for status message
-  attendeeId.addEventListener('keydown', function (e) {
+  let attendeeId =attendee_ID.value
+  attendee_ID.addEventListener('keydown', function (e) {
     if (e.key == "Enter") {
       console.log("HIHIHI")
       // only for check, not important
@@ -24,7 +25,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
       .from('check_ins')
       .insert([
         {
-          Attendee_Id: attendeeId.value,
+          Attendee_Id: attendeeId,
           attendance_time: attendanceTime
         }
       ])
@@ -32,7 +33,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
     const { data: existingRecords, fetch_error } = await supabase
       .from('roomStatus')
       .select()
-      .eq('attendee_id', attendeeId.value)
+      .eq('attendee_id', attendeeId)
 
     let checkInTime =null //for calculate the total time
 
@@ -44,7 +45,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
       const { fetch_error: deleteError } = await supabase
         .from('roomStatus')
         .delete()
-        .eq('attendee_id', attendeeId.value)
+        .eq('attendee_id', attendeeId)
 
       console.log('Record deleted from roomStatus');
     }
@@ -56,7 +57,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
         .from('roomStatus')
         .insert([
           {
-            attendee_id: attendeeId.value,
+            attendee_id: attendeeId,
             status: 'checked-in',
             check_in_time : attendanceTime,
           }
@@ -69,14 +70,14 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
     const { data: existingRanking } = await supabase
     .from('ranking')
     .select('*')
-    .eq('attendee_Id', attendeeId.value);
+    .eq('attendee_Id', attendeeId);
 
     if (!existingRanking || existingRanking.length === 0) { //same as roomStatus
     const { error: rankingInsertError } = await supabase
     .from('ranking')
     .insert([
       {
-        attendee_Id: attendeeId.value,
+        attendee_Id: attendeeId,
         total_time: 0, // Set the current timestamp as total_time
       },
     ])};
@@ -92,7 +93,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
     const { data: rankingData, error: rankingError } = await supabase
       .from('ranking')
       .select('total_time')
-      .eq('attendee_Id', attendeeId.value)
+      .eq('attendee_Id', attendeeId)
 
     let previousTotalTime = 0;
 
@@ -103,7 +104,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
       const { error: updateError } = await supabase
         .from('ranking')
         .update({ total_time: previousTotalTime + totalTime })
-        .eq('attendee_Id', attendeeId.value)
+        .eq('attendee_Id', attendeeId)
 
     } 
 
@@ -155,8 +156,8 @@ function clearRanking(){
         const startTime = new Date();
         startTime.setHours(8, 15, 0); // Set the start time to 08:15:00
         const endTime = new Date();
-        endTime.setHours(16, 30, 0); // Set the end time to 18:30:00
-  
+        endTime.setHours(18, 30, 0); // Set the end time to 18:30:00
+        
         if (currentDate <= startTime || currentDate >= endTime) {
       
       
@@ -166,6 +167,7 @@ function clearRanking(){
           .select('attendee_id')
           console.log("hi2")
           roomStatus.forEach(async (attendee) => {
+          for (let i = 0; i < 2*data.length; i++) {
             const tmp_time = new Date();
             tmp_time.setHours(18, 30, 0); // Set the start time to 08:15:00
 
@@ -176,9 +178,9 @@ function clearRanking(){
             attendeeId = attendee.attendee_id;
   
             console.log("hi3");
-            //await handleFormSubmit();
+            await handleFormSubmit();
             console.log("hi4");
-          });
+        }});
         }
       })();
     }
@@ -210,6 +212,6 @@ function clearRanking(){
 
   })
   setInterval(checkRewardEligibility, 1000 * 60 * 60 * 24 ); 
-  setInterval(timeLimitCheckIn, 100000); 
+  setInterval(timeLimitCheckIn, 1000*60*30); 
 })();
 
